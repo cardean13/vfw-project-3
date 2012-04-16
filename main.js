@@ -1,6 +1,6 @@
 //Yusef Hassan
 //VFW 0412
-//Project 2
+//Project 3
 
 
 
@@ -130,6 +130,8 @@ window.addEventListener("DOMContentLoaded", function(){
 		e("items").style.display = "block";
 		for(var i = 0, len = localStorage.length; i<len; i++){
 			var makeli = document.createElement("li");
+			var linksLi = document.createElement("li");
+			
 			makeList.appendChild(makeli);
 			var key = localStorage.key(i);
 			var value = localStorage.getItem(key);
@@ -141,8 +143,65 @@ window.addEventListener("DOMContentLoaded", function(){
 				makeSubList.appendChild(makeSubli);
 				var optSubText = obj[n][0]+" "+obj[n][1];
 				makeSubli.innerHTML = optSubText;
+				makeSubList.appendChild(linksLi);
+			}
+			makeItemLinks(localStorage.key(i), linksLi);
+		}
+	}
+	//make Item links function, creates edit and delete links
+	function makeItemLinks(key, linksLi){
+		var editLink = document.createElement("a");
+		editLink.href = "#";
+		editLink.key = key;
+		var editText = "Edit Info";
+		editLink.addEventListener("click", editItem);
+		editLink.innerHTML = editText;
+		linksLi.appendChild(editLink);
+		
+		var deleteLink = document.createElement("a");
+		deleteLink.href = "#";
+		deleteLink.key = key;
+		var deleteText = "Delete Info";
+		//deleteLink.addEventListener("click", deleteItem);
+		deleteLink.innerHTML = deleteText;
+		linksLi.appendChild(deleteLink);
+	}
+	
+	function editItem(){
+		var value = localStorage.getItem(this.key);
+		var item = JSON.parse(value);
+		toggleControls("off");
+		
+		e("fname").value = item.fname[1];
+		e("lname").value = item.lname[1];
+		var radios = document.forms[0].sex;
+		for(var i=0; i<radios.length; i++){
+			if(radios[i].value == "Male" && item.sex[1] == "Male"){
+				radios[i].setAttribute("checked", "checked");
+			}else if(radios[i].value == "Female" && item.sex[1] == "Female"){
+				radios[i].setAttribute("checked", "checked");
 			}
 		}
+		e("ageRange").value = item.age[1];		
+		
+		if(item.reliable[1] == "Yes"){
+			e("reliable").setAttribute("checked", "checked");
+		}
+		if(item.job[1] == "Yes"){
+			e("job").setAttribute("checked", "checked");
+		}
+		if(item.replace[1] == "Yes"){
+			e("replace").setAttribute("checked", "checked");
+		}
+		if(item.trust[1] == "Yes"){
+			e("trust").setAttribute("checked", "checked");
+		}
+		e("groups").value = item.group[1];
+		e("dname").value = item.dname[1];
+		e("value").value = item.value[1];
+		e("ldate").value = item.ldate[1];
+		e("rdate").value = item.rdate[1];
+		e("comments").value = item.comments[1];
 	}
 	
 	function deleteData(){
