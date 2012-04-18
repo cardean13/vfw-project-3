@@ -92,9 +92,12 @@ window.addEventListener("DOMContentLoaded", function(){
 		}
 	}
 	
-	function saveData(){
-		var id = Math.floor(Math.random()*100000001);
-		//gather form field data, store in object, object contains array with form label and input value
+	function saveData(key){
+		if(!key){
+			var id = Math.floor(Math.random()*100000001);
+		}else{
+			id = key;
+		}
 		getSelectedRadio();
 		getCheckBoxValue();		
 		var item = {};
@@ -203,11 +206,11 @@ window.addEventListener("DOMContentLoaded", function(){
 		e("rdate").value = item.rdate[1];
 		e("comments").value = item.comments[1];
 		
-		save.removeEventListener("click", storeData);
+		save.removeEventListener("click", saveData);
 		e("submit").value = "Edit Contact";
 		var editSubmit = e("submit");
 		editSubmit.addEventListener("click", validate);
-		ediSubmit.key = this.key;
+		editSubmit.key = this.key;
 	}
 	
 	function deleteData(){
@@ -262,7 +265,7 @@ window.addEventListener("DOMContentLoaded", function(){
 			d.preventDefault()
 			return false;
 		}else{
-			saveData();
+			saveData(this.key);
 		}
 	}
 	// variable defaults
