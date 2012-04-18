@@ -202,6 +202,12 @@ window.addEventListener("DOMContentLoaded", function(){
 		e("ldate").value = item.ldate[1];
 		e("rdate").value = item.rdate[1];
 		e("comments").value = item.comments[1];
+		
+		save.removeEventListener("click", storeData);
+		e("submit").value = "Edit Contact";
+		var editSubmit = e("submit");
+		editSubmit.addEventListener("click", validate);
+		ediSubmit.key = this.key;
 	}
 	
 	function deleteData(){
@@ -214,13 +220,59 @@ window.addEventListener("DOMContentLoaded", function(){
 			return false;
 		}
 	}
+	
+	function validate(d){
+		var getGroup = e("groups");
+		var getFname = e("fname");
+		var getLname = e("lname");
+		
+		errMsg.innerHTML = "";
+			getGroup.style.border = "1px solid black";
+			getFname.style.border = "1px solid black";
+			getLname.style.border = "1px solid black";
+
+		var message = [];
+		if(getGroup.value === "--Movies--"){
+			var groupError = "Please Pick A Disc Format.";
+			getGroup.style.border = "1px solid red";
+			message.push(groupError);
+		}
+		if(getGroup.value === "--Games--"){
+			var groupError = "Please Pick A Disc Format.";
+			getGroup.style.border = "1px solid red";
+			message.push(groupError);
+		}
+		if(getFname.value === ""){
+			var fnameError = "Please Type in First Name.";
+			getFname.style.border = "1px solid red";
+			message.push(fnameError);
+		}
+		if(getLname.value === ""){
+			var lnameError = "Please Type in Last Name.";
+			getLname.style.border = "1px solid red";
+			message.push(lnameError);
+		}
+		
+		if (message.length >= 1){
+			for(var i=0, j=message.length; i < j; i++){
+				var text = document.createElement("li");
+				text.innerHTML = message[i];
+				errMsg.appendChild(text);
+			}
+			d.preventDefault()
+			return false;
+		}else{
+			saveData();
+		}
+	}
 	// variable defaults
 	var typeOfMedia = ["--Movies--", "DVD", "VHS", "Blu-Ray", "--Games--", "Xbox 360", "PS3", "Wii" ],
 		sexValue,
 		reliableValue = "No",
 		jobValue = "No",
 		replaceValue = "No",
-		trustValue = "No"
+		trustValue = "No",
+		errMsg = e("errors")
 	;
 	wheelHouse();
 	
@@ -230,6 +282,6 @@ window.addEventListener("DOMContentLoaded", function(){
 	var viewLink = e ("allAccounts");
 	viewLink.addEventListener("click", getData);
 	var save = e("submit");
-	save.addEventListener("click", saveData);
+	save.addEventListener("click", validate);
 
 });

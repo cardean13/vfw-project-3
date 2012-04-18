@@ -77,5 +77,10 @@ label{
 	padding-top: 10px
 }
 
+ul{
+	 list-style-image: url('arrow.gif');
 
+	color: red;
+	font-variant: small-caps;
+}
 
